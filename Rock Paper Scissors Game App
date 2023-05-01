@@ -1,0 +1,181 @@
+# game is rock paper scissors
+# User inputs either 'rock', 'paper', or 'scissors'
+# list has wins vs losses and ties
+# the procedure / function will be deciding what the computer picks and another for 
+# finding who wins
+# 10 tries? Maybe 5?
+
+
+import random
+
+x = get_width() / 7
+y = (get_height() / 4) * 3
+
+plyr_txt = Text(" ")
+plyr_txt.set_font("15pt Times")
+
+results_txt = Text("Your Results:")
+results_txt.set_position(220, 150)
+results_txt.set_font("20pt Times")
+add(results_txt)
+
+player_choices = []
+winVsLoss = []
+
+computer_num = random.randint(0,2)
+player_num = 2
+
+################################################################################
+
+rock1 = Rectangle(125, 75)
+rock1.set_position(x, y)
+rock1.set_color("#636363")
+add(rock1)
+
+rock2 = Rectangle(50, 25)
+rock2.set_position(x+45, y-25)
+rock2.set_color("#9c9c9c")
+add(rock2)
+
+paper = Rectangle(125, 150)
+paper.set_position(x, 100)
+paper.set_color("#f0f0f0")
+add(paper)
+
+scissors_blade1 = Rectangle(125, 25)
+scissors_blade1.set_position(250, 100)
+scissors_blade1.set_color("#9c9c9c")
+add(scissors_blade1)
+
+scissors_blade2 = Rectangle(100, 5)
+scissors_blade2.set_position(275,110)
+scissors_blade2.set_color(Color.gray)
+add(scissors_blade2)
+
+scissorsHandle1 = Rectangle(50, 25)
+scissorsHandle1.set_position(200, 100)
+scissorsHandle1.set_color(Color.red)
+add(scissorsHandle1)
+
+scissorsHandle2 = Circle(10)
+scissorsHandle2.set_position(230, 111)
+scissorsHandle2.set_color("#ff543d")
+add(scissorsHandle2)
+
+sH3 = Circle(30)
+sH3.set_position(185, 80)
+sH3.set_color(Color.red)
+add(sH3)
+
+sH4 = Circle(30)
+sH4.set_position(185, 145)
+sH4.set_color(Color.red)
+add(sH4)
+
+sH5 = Circle(25)
+sH5.set_position(185, 80)
+sH5.set_color(Color.white)
+add(sH5)
+
+sH6 = Circle(25)
+sH6.set_position(185, 145)
+sH6.set_color(Color.white)
+add(sH6)
+
+#################################################################################################
+
+
+# uses the input from the computer and the player to decide who won / lost or if they tied
+def decision():
+    if player_num == computer_num: # checks if the computer and your choice are the same
+        winVsLoss.append(0)
+        
+    elif player_num == 0 and computer_num == 2: # your rock vs scissors
+        winVsLoss.append(2)
+    
+    elif player_num == 0 and computer_num == 1: # your rock vs paper
+        winVsLoss.append(1)
+        
+    elif player_num == 1 and computer_num == 0: # your paper vs rock
+        winVsLoss.append(2)
+        
+    elif player_num == 1 and computer_num == 2: # your paper vs scissors
+        winVsLoss.append(1)
+        
+    elif player_num == 2 and computer_num == 1: # your scissors vs paper
+        winVsLoss.append(2)
+        
+    elif player_num == 2 and computer_num == 0: # your scissors vs rock
+        winVsLoss.append(1)
+        
+    elif player_num == 3:
+        winVsLoss.append(1)
+
+    
+def check_results(gameList):
+    results_list = gameList
+    # results_list.sort()
+    wins = results_list.count(2)
+    losses = results_list.count(1)
+    ties = results_list.count(0)
+    
+    win_txt = Text(str(wins) + " win(s)")
+    win_txt.set_position(225, 200)
+    win_txt.set_font("15pt Times")
+    win_txt.set_color("#00a331")
+    add(win_txt)
+
+    ties_txt = Text(str(ties) + " tie(s)")
+    ties_txt.set_position(225, 230)
+    ties_txt.set_font("15pt Times")
+    ties_txt.set_color("#e5ed00")
+    add(ties_txt)
+
+    loss_txt = Text(str(losses) + " loss(es)")
+    loss_txt.set_position(225, 260)
+    loss_txt.set_font("15pt Times")
+    loss_txt.set_color("#b30000")
+    add(loss_txt)
+    
+    print(wins)
+    print(ties)                         # Prints wins, lossses, and ties above the results.
+    print(losses)
+    print(results_list)
+    
+# main code for the player's choice, prints out rock, paper, scissors in both word and image
+for i in range(10):
+    computer_num = random.randint(0,2)
+    print(computer_num)
+    player_choice = input("rock, paper, or scissors? (type in lowercase, no spaces) ")
+    new_word = player_choice
+    if player_choice == "rock": # rock choice
+        plyr_txt.set_text("Rock")
+        plyr_txt.set_position(x, y)
+        player_choices.append(new_word)
+        player_num = 0
+        #displays the word rock and image
+        
+    elif player_choice == "paper": # paper choice
+        plyr_txt.set_text("Paper")
+        plyr_txt.set_position(x, y)
+        
+        player_choices.append(new_word)
+        player_num = 1
+        #displays the word paper and image of paper
+        
+    elif player_choice == "scissors": # scissors choice
+        plyr_txt.set_text("Scissors")
+        plyr_txt.set_position(x, y)
+        
+        player_choices.append(new_word)
+        player_num = 2
+        #displays the word scissors and image of scissors
+        
+    else:
+        player_choices.append(new_word)
+        player_num = 3
+    decision()
+    
+check_results(winVsLoss)
+
+print(player_choices)
